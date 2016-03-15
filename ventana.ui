@@ -6,133 +6,121 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>974</width>
-    <height>416</height>
+    <width>626</width>
+    <height>322</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Ventana</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPlainTextEdit" name="plainTextEdit">
-    <property name="geometry">
-     <rect>
-      <x>380</x>
-      <y>20</y>
-      <width>311</width>
-      <height>301</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="autoFillBackground">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>358</width>
-      <height>323</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
-     <item>
-      <widget class="QGroupBox" name="groupBox">
-       <property name="title">
-        <string>Puertos</string>
-       </property>
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <item>
-         <widget class="QComboBox" name="portNameCB"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="portNamelabel">
-          <property name="text">
-           <string>PortName</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="baudRateCB"/>
-        </item>
-        <item>
-         <widget class="QLabel" name="description">
-          <property name="text">
-           <string>Description</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="baudRate">
-          <property name="text">
-           <string>baudRate</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="serialNumber">
-          <property name="text">
-           <string>SerialNumber</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="connectButton">
-          <property name="text">
-           <string>Conectar</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QPushButton" name="stopButton">
-            <property name="text">
-             <string>Parar</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="cleanButton">
-            <property name="text">
-             <string>Limpiar</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="tiempo"/>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QPushButton" name="exitButton">
-          <property name="text">
-           <string>Salir</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <zorder>layoutWidget</zorder>
-   <zorder>plainTextEdit</zorder>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="title">
+       <string>Puertos</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QComboBox" name="portNameCB"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="portNamelabel">
+         <property name="text">
+          <string>Baudios</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="baudRateCB"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="description">
+         <property name="text">
+          <string>Descripción</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="baudRate">
+         <property name="text">
+          <string>Baudios</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="serialNumber">
+         <property name="text">
+          <string>SerialNumber</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="connectButton">
+         <property name="text">
+          <string>Conectar</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QPushButton" name="stopButton">
+           <property name="text">
+            <string>Parar</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="cleanButton">
+           <property name="text">
+            <string>Limpiar</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="labelTiempo">
+           <property name="text">
+            <string>Tiempo</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="tiempo"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QPushButton" name="exitButton">
+         <property name="text">
+          <string>Salir</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPlainTextEdit" name="plainTextEdit"/>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>974</width>
-     <height>28</height>
+     <width>626</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuArchivo">

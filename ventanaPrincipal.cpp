@@ -17,8 +17,6 @@ Ventana::Ventana(QWidget *parent) :
     conexiones();
 }
 
-
-
 Ventana::~Ventana()
 {
     delete ui;
@@ -47,7 +45,6 @@ void Ventana::inicializar()
 
 void Ventana::conexiones()
 {
-
     connect(ui->connectButton,SIGNAL(clicked()),this,SLOT(openSerialPort()));
     connect(ui->actionConectar,SIGNAL(triggered()),this,SLOT(openSerialPort()));
     connect(ui->stopButton,SIGNAL(clicked()),this,SLOT(closeSerialPort()));
@@ -61,7 +58,6 @@ void Ventana::conexiones()
     //connect(this, SIGNAL(enviardatosgrafico(QStringList,QList<double>)), graficos, SLOT(show()));
     connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(show()));
     connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(realtimeDataSlot(QStringList,double)));
-
 }
 
 void Ventana::readData(){
@@ -80,6 +76,7 @@ void Ventana::readData(){
                 emit emitlinea(linea);
                 if(datos.size()%5==0)//Cada 5 datos se grafica
                     emit emitdato(linea,timer.elapsed()/1000.0);
+
                 emit enviardatosgrafico(datos,listaTiempos);
             }
         }
@@ -87,7 +84,6 @@ void Ventana::readData(){
         serial->close();
     }
 }
-
 
 void Ventana::openSerialPort()
 {
@@ -138,7 +134,6 @@ void Ventana::closeWindow(){
     qApp->quit();
 }
 
-
 void Ventana::on_cleanButton_clicked()
 {
     ui->plainTextEdit->clear();
@@ -151,7 +146,6 @@ void Ventana::cambiarBaudRateCB()
 
 void Ventana::imprimir(QStringList linea)
 {
-
     //QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
     QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<endl;
     ui->plainTextEdit->insertPlainText(QString::number(timer.elapsed()/1000.0)+" "+dato);
@@ -164,7 +158,6 @@ void Ventana::imprimir(QStringList linea)
     file.close();
 }
 
-
 void Ventana::on_portNameCB_currentTextChanged()
 {
     QList<QSerialPortInfo> puertos=QSerialPortInfo::availablePorts();
@@ -172,7 +165,7 @@ void Ventana::on_portNameCB_currentTextChanged()
         QSerialPortInfo info=puertos.at(i);
         if (info.portName()==ui->portNameCB->currentText()){
             ui->portNamelabel->setText("Puerto: "+info.portName());
-            ui->description->setText("Descripcion: "+info.description());
+            ui->description->setText("Descripción: "+info.description());
             ui->serialNumber->setText("Numero de Serie: "+info.serialNumber());
             break;
         }
