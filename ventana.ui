@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>750</width>
-    <height>320</height>
+    <width>978</width>
+    <height>514</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -115,6 +115,90 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Graficos</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Acelerometro</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxAcY">
+             <property name="text">
+              <string>Eje X</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxAcX">
+             <property name="text">
+              <string>Eje Y</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxAcZ">
+             <property name="text">
+              <string>Eje Z</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Girsocopio</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxGyY">
+             <property name="text">
+              <string>Eje X</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxGyZ">
+             <property name="text">
+              <string>Eje Y</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxGyX">
+             <property name="text">
+              <string>Eje Z</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
       </layout>
      </widget>
     </item>
@@ -137,7 +221,7 @@ background-color: black;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>750</width>
+     <width>978</width>
      <height>21</height>
     </rect>
    </property>
@@ -145,8 +229,8 @@ background-color: black;</string>
     <property name="title">
      <string>Archivo</string>
     </property>
-    <addaction name="actionConectar"/>
-    <addaction name="actionParar"/>
+    <addaction name="actionConnect"/>
+    <addaction name="actionStop"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuArchivo"/>
@@ -165,18 +249,34 @@ background-color: black;</string>
     <string>Salir</string>
    </property>
   </action>
-  <action name="actionConectar">
+  <action name="actionConnect">
    <property name="text">
     <string>Conectar</string>
    </property>
   </action>
-  <action name="actionParar">
+  <action name="actionStop">
    <property name="text">
     <string>Parar</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>portNameCB</tabstop>
+  <tabstop>baudRateCB</tabstop>
+  <tabstop>connectButton</tabstop>
+  <tabstop>stopButton</tabstop>
+  <tabstop>cleanButton</tabstop>
+  <tabstop>tiempo</tabstop>
+  <tabstop>exitButton</tabstop>
+  <tabstop>checkBoxAcX</tabstop>
+  <tabstop>checkBoxAcY</tabstop>
+  <tabstop>checkBoxAcZ</tabstop>
+  <tabstop>checkBoxGyX</tabstop>
+  <tabstop>checkBoxGyY</tabstop>
+  <tabstop>checkBoxGyZ</tabstop>
+  <tabstop>plainTextEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

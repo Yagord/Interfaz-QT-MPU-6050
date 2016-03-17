@@ -23,7 +23,7 @@ signals:
     void emitlinea(QStringList);
     void emitdato(QStringList,double);
     void enviardatosgrafico(QStringList,QList<double>);
-    void mostrargrafico();
+    //void mostrargrafico();
 
 private slots:
     void on_portNameCB_currentTextChanged();
@@ -33,15 +33,16 @@ private slots:
     void closeWindow();
     void on_cleanButton_clicked();
     void cambiarBaudRateCB();
-    void imprimir(QStringList linea);
+    void print(QStringList linea);
 
 private:
     Ui::Ventana *ui;
     QSerialPort *serial;
     LectorSerial *lector;
     QStringList datos;
+    int samplesNumber;
     QList<double> listaTiempos;
-    QString dato,Tiempo;
+    QString serialReaded,testTime;
     QElapsedTimer timer;
     Graficos *graficos;
     void inicializar();

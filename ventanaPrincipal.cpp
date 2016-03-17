@@ -17,25 +17,24 @@ Ventana::Ventana(QWidget *parent) :
     conexiones();
 }
 
-Ventana::~Ventana()
+Ventana::~Ventana() //Destroy
 {
+    //this->closeSerialPort();
     delete ui;
 }
-
 
 void Ventana::inicializar()
 {
     serial=new QSerialPort(this);
-    //timer.start();
-    file.setFileName("out.txt");
+    //file.setFileName("out.txt");
     ui->setupUi(this);
-    graficos=new Graficos;
+    ui->stopButton->setDisabled(true);
+    graficos=new Graficos;    
     ui->tiempo->setValidator(new QIntValidator(0,200,this));
-    for(int i = 0; i < QSerialPortInfo::availablePorts().size(); i++)
-    {
-        QSerialPortInfo info=QSerialPortInfo::availablePorts().at(i);
+    foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
         ui->portNameCB->addItem(info.portName());
     }
+    ui->baudRate->setText("Baudios: 115200");
     ui->baudRateCB->addItem(QStringLiteral("115200"), QSerialPort::Baud115200);
     ui->baudRateCB->addItem(QStringLiteral("57600"), QSerialPort::Baud57600);
     ui->baudRateCB->addItem(QStringLiteral("38400"), QSerialPort::Baud38400);
@@ -46,56 +45,59 @@ void Ventana::inicializar()
 void Ventana::conexiones()
 {
     connect(ui->connectButton,SIGNAL(clicked()),this,SLOT(openSerialPort()));
-    connect(ui->actionConectar,SIGNAL(triggered()),this,SLOT(openSerialPort()));
+    connect(ui->actionConnect,SIGNAL(triggered()),this,SLOT(openSerialPort()));
     connect(ui->stopButton,SIGNAL(clicked()),this,SLOT(closeSerialPort()));
-    connect(ui->actionParar,SIGNAL(triggered()),this,SLOT(closeSerialPort()));
+    connect(ui->actionStop,SIGNAL(triggered()),this,SLOT(closeSerialPort()));
     connect(ui->baudRateCB,SIGNAL(currentTextChanged(QString)),this,SLOT(cambiarBaudRateCB()));
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(ui->exitButton,SIGNAL(clicked()),this,SLOT(closeWindow()));
     connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(closeWindow()));
-    connect(this,SIGNAL(emitlinea(QStringList)),this,SLOT(imprimir(QStringList)));
+    connect(this,SIGNAL(emitlinea(QStringList)),this,SLOT(print(QStringList)));
     //connect(this, SIGNAL(enviardatosgrafico(QStringList,QList<double>)), graficos, SLOT(Graficar(QStringList,QList<double>)));
     //connect(this, SIGNAL(enviardatosgrafico(QStringList,QList<double>)), graficos, SLOT(show()));
-    //connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(show()));
-    //connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(realtimeDataSlot(QStringList,double)));
+    connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(show()));
+    connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(realtimeDataSlot(QStringList,double)));
 }
 
 void Ventana::readData(){
-    if (timer.elapsed()/1000.0<=Tiempo.toDouble()){
+    if (timer.elapsed()/1000.0<=testTime.toDouble()){
         while (serial->canReadLine()){
             QByteArray serialData = serial->readLine();
-            dato=QString(serialData);
-            QStringList linea=dato.split(" ");
+            serialReaded=QString(serialData);
+            QStringList linea=serialReaded.split(" ");
             if(linea.size()==6){
-                datos.append(dato);
+                samplesNumber+=1;
 
-                if(datos.size()==1){//Cuando se agrega el primer dato, se inicia el tiempo.
+                if(samplesNumber==1){//Cuando se agrega el primer dato, se inicia el tiempo.
                     timer.start();                    
                 }
                 listaTiempos.append(timer.elapsed()/1000.0);
+                datos.append(linea);
                 emit emitlinea(linea);
-                if(datos.size()%5==0)//Cada 5 datos se grafica
+                if(samplesNumber % 5==0)//Cada 5 datos se grafica
                     emit emitdato(linea,timer.elapsed()/1000.0);
-
-                emit enviardatosgrafico(datos,listaTiempos);
             }
         }
     }else{
+        ui->connectButton->setDisabled(false);
+        ui->stopButton->setDisabled(true);
         serial->close();
     }
+
 }
 
 void Ventana::openSerialPort()
 {
-    file.reset();
+    //file.reset();
+
+    samplesNumber=0;
     datos.clear();          //Limpieza de las listas
     listaTiempos.clear();
     if (ui->tiempo->text()==""){
         QMessageBox::information(this,"Ingrese tiempo","Debe ingresar Tiempo");
-
     }
     else{
-        Tiempo=ui->tiempo->text();
+        testTime=ui->tiempo->text();
         serial->setPortName(ui->portNameCB->currentText());
         serial->setBaudRate(ui->baudRateCB->currentText().toInt());
         QTextStream(stdout)<<"Baudios: "<< serial->baudRate();
@@ -107,7 +109,9 @@ void Ventana::openSerialPort()
         if (serial->open(QIODevice::ReadWrite)){
             //serial->dataTerminalReadyChanged(true);
             //serial->requestToSendChanged(true);
-            timer.start();
+            ui->connectButton->setDisabled(true);
+            ui->stopButton->setDisabled(false);
+
             QMessageBox::information(this,"Puerto Abierto","El puerto se ha abierto");
         } else {
             QMessageBox::critical(this, tr("Error"), serial->errorString());
@@ -118,12 +122,14 @@ void Ventana::openSerialPort()
 void Ventana::closeSerialPort()
 {
     datos.clear();
+    samplesNumber=0;
     listaTiempos.clear();
     if (serial->isOpen()){
         serial->close();
         //lector->timer.restart();
         QMessageBox::information(this,"Cerrar Puerto","Puerto Cerrado");
         QTextStream(stdout)<<"Cerrado";
+        ui->connectButton->setDisabled(false);
     }
     else {
          QMessageBox::information(this,"Cerrar Puerto","El puerto ya estaba cerrado");
@@ -144,13 +150,13 @@ void Ventana::cambiarBaudRateCB()
     ui->baudRate->setText("Baudios: "+ui->baudRateCB->currentText());
 }
 
-void Ventana::imprimir(QStringList linea)
+void Ventana::print(QStringList linea)
 {
-    QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
+    QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<< samplesNumber <<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
     //QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<endl;
-    ui->plainTextEdit->insertPlainText(QString::number(timer.elapsed()/1000.0)+" "+dato);
-    QScrollBar *bar = ui->plainTextEdit->verticalScrollBar();
-    bar->setValue(bar->maximum());
+    ui->plainTextEdit->insertPlainText(QString::number(timer.elapsed()/1000.0)+" "+serialReaded);
+    QScrollBar *scrollbar = ui->plainTextEdit->verticalScrollBar();
+    scrollbar->setValue(scrollbar->maximum());
     /*
     if (file.open(QIODevice::Append)) {
         QTextStream stream(&file);
@@ -162,9 +168,7 @@ void Ventana::imprimir(QStringList linea)
 
 void Ventana::on_portNameCB_currentTextChanged()
 {
-    QList<QSerialPortInfo> puertos=QSerialPortInfo::availablePorts();
-    for (int i = 0; i < puertos.size(); i++) {
-        QSerialPortInfo info=puertos.at(i);
+    foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
         if (info.portName()==ui->portNameCB->currentText()){
             ui->portNamelabel->setText("Puerto: "+info.portName());
             ui->description->setText("Descripción: "+info.description());

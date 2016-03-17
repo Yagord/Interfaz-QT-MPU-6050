@@ -17,8 +17,8 @@ public:
     ~Graficos();
 
 public slots:
-    void Graficar(QStringList datos,QList<double> Tiempos);
-    void realtimeDataSlot(QStringList datos, double Tiempo);
+    //void Graficar(QStringList datos,QList<double> Tiempos);
+    void realtimeDataSlot(QStringList linea, double tiempo);
 
 private:
     Ui::Graficos *ui;
