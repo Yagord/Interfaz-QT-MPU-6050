@@ -56,8 +56,8 @@ void Ventana::conexiones()
     connect(this,SIGNAL(emitlinea(QStringList)),this,SLOT(imprimir(QStringList)));
     //connect(this, SIGNAL(enviardatosgrafico(QStringList,QList<double>)), graficos, SLOT(Graficar(QStringList,QList<double>)));
     //connect(this, SIGNAL(enviardatosgrafico(QStringList,QList<double>)), graficos, SLOT(show()));
-    connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(show()));
-    connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(realtimeDataSlot(QStringList,double)));
+    //connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(show()));
+    //connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(realtimeDataSlot(QStringList,double)));
 }
 
 void Ventana::readData(){
@@ -146,16 +146,18 @@ void Ventana::cambiarBaudRateCB()
 
 void Ventana::imprimir(QStringList linea)
 {
-    //QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
-    QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<endl;
+    QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
+    //QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<endl;
     ui->plainTextEdit->insertPlainText(QString::number(timer.elapsed()/1000.0)+" "+dato);
     QScrollBar *bar = ui->plainTextEdit->verticalScrollBar();
     bar->setValue(bar->maximum());
+    /*
     if (file.open(QIODevice::Append)) {
         QTextStream stream(&file);
         stream << QString::number(timer.elapsed()/1000.0)+" "+linea.at(0)+" "+linea.at(1)+" "+linea.at(2)+" "+linea.at(3)+" "+linea.at(4)+" "+linea.at(5);
     }
     file.close();
+    */
 }
 
 void Ventana::on_portNameCB_currentTextChanged()

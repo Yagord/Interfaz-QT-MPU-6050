@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>626</width>
-    <height>322</height>
+    <width>750</width>
+    <height>320</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>750</width>
+    <height>320</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Ventana</string>
@@ -90,7 +96,10 @@
          <item>
           <widget class="QLabel" name="labelTiempo">
            <property name="text">
-            <string>Tiempo</string>
+            <string>&amp;Tiempo</string>
+           </property>
+           <property name="buddy">
+            <cstring>tiempo</cstring>
            </property>
           </widget>
          </item>
@@ -110,7 +119,16 @@
      </widget>
     </item>
     <item>
-     <widget class="QPlainTextEdit" name="plainTextEdit"/>
+     <widget class="QPlainTextEdit" name="plainTextEdit">
+      <property name="styleSheet">
+       <string notr="true">font-size: 13px;    
+color: rgb(0, 170, 0);
+background-color: black;</string>
+      </property>
+      <property name="backgroundVisible">
+       <bool>false</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -119,7 +137,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>626</width>
+     <width>750</width>
      <height>21</height>
     </rect>
    </property>

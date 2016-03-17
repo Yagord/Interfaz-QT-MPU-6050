@@ -50,6 +50,7 @@ private:
     //QString serialBuffer;
     QFile file;
 
+
 };
 
 #endif // VENTANA_H
