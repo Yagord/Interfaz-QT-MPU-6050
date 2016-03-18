@@ -18,6 +18,7 @@ class Ventana : public QMainWindow
 public:
     explicit Ventana(QWidget *parent = 0);
     ~Ventana();
+    QList<boolean> GetGraphicsCheckboxs();
 
 signals:
     void emitlinea(QStringList);
@@ -33,7 +34,7 @@ private slots:
     void closeWindow();
     void on_cleanButton_clicked();
     void cambiarBaudRateCB();
-    void print(QStringList linea);
+    void print(QStringList linea);    
 
 private:
     Ui::Ventana *ui;
@@ -50,6 +51,7 @@ private:
     //QSerialPort *serial;
     //QString serialBuffer;
     QFile file;
+
 
 
 };

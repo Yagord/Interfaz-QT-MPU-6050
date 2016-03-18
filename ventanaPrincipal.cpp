@@ -28,8 +28,9 @@ void Ventana::inicializar()
     serial=new QSerialPort(this);
     //file.setFileName("out.txt");
     ui->setupUi(this);
+
     ui->stopButton->setDisabled(true);
-    graficos=new Graficos;    
+    graficos=new Graficos;
     ui->tiempo->setValidator(new QIntValidator(0,200,this));
     foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
         ui->portNameCB->addItem(info.portName());
@@ -176,4 +177,15 @@ void Ventana::on_portNameCB_currentTextChanged()
             break;
         }
     }
+}
+
+QList<boolean> Ventana::GetGraphicsCheckboxs(){
+    QList<boolean> checks;
+    checks.append(ui->checkBoxAcX->isChecked());
+    checks.append(ui->checkBoxAcY->isChecked());
+    checks.append(ui->checkBoxAcZ->isChecked());
+    checks.append(ui->checkBoxGyX->isChecked());
+    checks.append(ui->checkBoxGyY->isChecked());
+    checks.append(ui->checkBoxGyZ->isChecked());
+    return checks;
 }

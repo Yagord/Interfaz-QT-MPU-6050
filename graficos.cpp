@@ -1,6 +1,5 @@
 #include "graficos.h"
 #include "ui_graficos.h"
-#include "ventanaPrincipal.h"
 
 Graficos::Graficos(QWidget *parent) :
     QMainWindow(parent),

@@ -20,6 +20,9 @@ public slots:
     //void Graficar(QStringList datos,QList<double> Tiempos);
     void realtimeDataSlot(QStringList linea, double tiempo);
 
+signals:
+    void  windowShown();
+
 private:
     Ui::Graficos *ui;
     QStringList linea;
