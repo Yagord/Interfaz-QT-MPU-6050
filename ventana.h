@@ -46,7 +46,7 @@ private:
     QStringList datos;
     int samplesNumber;
     QList<double> listaTiempos;
-    QString serialReaded,testTime;
+    QString serialReaded;
     QElapsedTimer timer;
     Graficos *graficos;
     void inicializar();

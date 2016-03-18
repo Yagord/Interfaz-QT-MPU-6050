@@ -61,7 +61,9 @@ void Ventana::conexiones()
 }
 
 void Ventana::readData(){
-    if (timer.elapsed()/1000.0<=testTime.toDouble()){
+    QTextStream(stdout)<<timer.elapsed()/1000.0<< "Tiempo Spinbox" <<(double)ui->tiempo->value();
+
+    //if ( timer.elapsed()/1000.0 <= (double)ui->tiempo->value()){
         while (serial->canReadLine()){
             const QByteArray serialData = serial->readLine();
             serialReaded=QString(serialData);
@@ -78,11 +80,12 @@ void Ventana::readData(){
                     emit emitdato(linea,timer.elapsed()/1000.0);
             }
         }
-    }else{
+    /*}else{
         ui->connectButton->setDisabled(false);
         ui->stopButton->setDisabled(true);
         serial->close();
     }
+    */
 
 }
 
@@ -93,29 +96,22 @@ void Ventana::openSerialPort()
     samplesNumber=0;
     datos.clear();          //Limpieza de las listas
     listaTiempos.clear();
-    if (ui->tiempo->text()==""){
-        QMessageBox::information(this,"Ingrese tiempo","Debe ingresar Tiempo");
-    }
-    else{
-        testTime=ui->tiempo->text();
-        serial->setPortName(ui->portNameCB->currentText());
-        serial->setBaudRate(ui->baudRateCB->currentText().toInt());
-        QTextStream(stdout)<<"Baudios: "<< serial->baudRate();
-        QTextStream(stdout)<<"portName"<< serial->portName();
-        serial->setStopBits(QSerialPort::OneStop);
-        serial->setDataBits(QSerialPort::Data8);
-        serial->setParity(QSerialPort::NoParity);
-        serial->setFlowControl(QSerialPort::NoFlowControl);
-        if (serial->open(QIODevice::ReadWrite)){
-            //serial->dataTerminalReadyChanged(true);
-            //serial->requestToSendChanged(true);
-            ui->connectButton->setDisabled(true);
-            ui->stopButton->setDisabled(false);
-
-            QMessageBox::information(this,"Puerto Abierto","El puerto se ha abierto");
-        } else {
-            QMessageBox::critical(this, tr("Error"), serial->errorString());
-        }
+    serial->setPortName(ui->portNameCB->currentText());
+    serial->setBaudRate(ui->baudRateCB->currentText().toInt());
+    QTextStream(stdout)<<"Baudios: "<< serial->baudRate();
+    QTextStream(stdout)<<"portName"<< serial->portName();
+    serial->setStopBits(QSerialPort::OneStop);
+    serial->setDataBits(QSerialPort::Data8);
+    serial->setParity(QSerialPort::NoParity);
+    serial->setFlowControl(QSerialPort::NoFlowControl);
+    if (serial->open(QIODevice::ReadWrite)){
+        //serial->dataTerminalReadyChanged(true);
+        //serial->requestToSendChanged(true);
+        ui->connectButton->setDisabled(true);
+        ui->stopButton->setDisabled(false);
+        QMessageBox::information(this,"Puerto Abierto","El puerto se ha abierto");
+    } else {
+        QMessageBox::critical(this, tr("Error"), serial->errorString());
     }
 }
 
@@ -126,7 +122,6 @@ void Ventana::closeSerialPort()
     listaTiempos.clear();
     if (serial->isOpen()){
         serial->close();
-        //lector->timer.restart();
         QMessageBox::information(this,"Cerrar Puerto","Puerto Cerrado");
         QTextStream(stdout)<<"Cerrado";
         ui->connectButton->setDisabled(false);
