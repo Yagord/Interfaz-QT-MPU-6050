@@ -19,15 +19,24 @@
   <property name="windowTitle">
    <string>Ventana</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font:12px; </string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
-    <item>
+    <item alignment="Qt::AlignTop">
      <widget class="QGroupBox" name="groupBox">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
       </property>
       <property name="title">
        <string>Puertos</string>
@@ -72,6 +81,26 @@
        </item>
        <item>
         <widget class="QPushButton" name="connectButton">
+         <property name="styleSheet">
+          <string notr="true">
+QPushButton{
+color : white;
+background-color: #5cb85c;
+border: 2px solid #4cae4c;
+border-radius: 3px;
+padding: 5px;
+min-width: 80px;
+}
+
+QPushButton:hover {
+background-color: #47a447;
+border: 2px solid #398439;
+}
+
+QPushButton:pressed {
+border: 3px solid #398439;
+}</string>
+         </property>
          <property name="text">
           <string>Conectar</string>
          </property>
@@ -81,6 +110,10 @@
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QPushButton" name="stopButton">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(255, 0, 0);
+color: rgb(255, 255, 255);</string>
+           </property>
            <property name="text">
             <string>Parar</string>
            </property>
@@ -96,20 +129,27 @@
          <item>
           <widget class="QLabel" name="labelTiempo">
            <property name="text">
-            <string>&amp;Tiempo</string>
-           </property>
-           <property name="buddy">
-            <cstring>tiempo</cstring>
+            <string>Tiempo</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="tiempo">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>20</height>
-            </size>
+          <widget class="QSpinBox" name="tiempo">
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>199</number>
+           </property>
+           <property name="value">
+            <number>15</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Seg.</string>
            </property>
           </widget>
          </item>
@@ -117,6 +157,25 @@
        </item>
        <item>
         <widget class="QPushButton" name="exitButton">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+color : white;
+background-color: rgb(255, 0, 0);
+border: 2px solid;
+border-radius: 3px;
+padding: 5px;
+min-width: 80px;
+}
+
+QPushButton:hover {
+background-color: rgb(170, 0, 0);
+border: 2px solid ;
+}
+
+QPushButton:pressed {
+border: 3px solid rgb(102, 0, 0);
+}</string>
+         </property>
          <property name="text">
           <string>Salir</string>
          </property>
@@ -271,10 +330,8 @@ background-color: black;</string>
  <tabstops>
   <tabstop>portNameCB</tabstop>
   <tabstop>baudRateCB</tabstop>
-  <tabstop>connectButton</tabstop>
   <tabstop>stopButton</tabstop>
   <tabstop>cleanButton</tabstop>
-  <tabstop>tiempo</tabstop>
   <tabstop>exitButton</tabstop>
   <tabstop>checkBoxAcX</tabstop>
   <tabstop>checkBoxAcY</tabstop>

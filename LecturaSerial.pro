@@ -15,13 +15,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
     qcustomplot.cpp \
     graficos.cpp \
-    ventanaPrincipal.cpp
+    ventana.cpp \
+    login.cpp
 
 
 HEADERS  += \
     qcustomplot.h \
     graficos.h \
-    ventanaPrincipal.h
+    ventana.h \
+    login.h
 
 FORMS    += ventana.ui \
-    graficos.ui
+    graficos.ui \
+    login.ui

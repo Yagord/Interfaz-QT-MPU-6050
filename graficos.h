@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <qcustomplot.h>
+//#include <ventana.h>
+
 
 namespace Ui {
 class Graficos;

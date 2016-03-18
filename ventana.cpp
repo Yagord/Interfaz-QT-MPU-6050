@@ -1,4 +1,4 @@
-#include "ventanaPrincipal.h"
+#include "ventana.h"
 
 #include "ui_ventana.h"
 #include <QSerialPortInfo>
@@ -31,7 +31,7 @@ void Ventana::inicializar()
 
     ui->stopButton->setDisabled(true);
     graficos=new Graficos;
-    ui->tiempo->setValidator(new QIntValidator(0,200,this));
+    //ui->tiempo->setValidator(new QIntValidator(0,200,this));
     foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
         ui->portNameCB->addItem(info.portName());
     }
@@ -63,15 +63,14 @@ void Ventana::conexiones()
 void Ventana::readData(){
     if (timer.elapsed()/1000.0<=testTime.toDouble()){
         while (serial->canReadLine()){
-            QByteArray serialData = serial->readLine();
+            const QByteArray serialData = serial->readLine();
             serialReaded=QString(serialData);
             QStringList linea=serialReaded.split(" ");
             if(linea.size()==6){
                 samplesNumber+=1;
-
-                if(samplesNumber==1){//Cuando se agrega el primer dato, se inicia el tiempo.
+                if(samplesNumber==1)//Cuando se agrega el primer dato, se inicia el tiempo.
                     timer.start();                    
-                }
+
                 listaTiempos.append(timer.elapsed()/1000.0);
                 datos.append(linea);
                 emit emitlinea(linea);
@@ -167,9 +166,19 @@ void Ventana::print(QStringList linea)
     */
 }
 
+QElapsedTimer Ventana::getTimer() const
+{
+    return timer;
+}
+
+void Ventana::setTimer(const QElapsedTimer &value)
+{
+    timer = value;
+}
+
 void Ventana::on_portNameCB_currentTextChanged()
 {
-    foreach (QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
+    foreach (const QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
         if (info.portName()==ui->portNameCB->currentText()){
             ui->portNamelabel->setText("Puerto: "+info.portName());
             ui->description->setText("Descripción: "+info.description());

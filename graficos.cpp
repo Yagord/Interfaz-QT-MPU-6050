@@ -15,8 +15,8 @@ Graficos::~Graficos()
 
 void Graficos::inicializar()
 {
-    ui->setupUi(this);
 
+    ui->setupUi(this);
     ui->graficoAcX->addGraph(); // blue line
     ui->graficoAcX->graph()->setPen(QPen(Qt::blue));
     ui->graficoAcX->graph()->setBrush(QBrush(QColor(240, 255, 200)));
@@ -47,6 +47,45 @@ void Graficos::inicializar()
     //ui->graficoAcX->graph(2)->setScatterStyle(QCPScatterStyle::ssDisc);
 
 }
+
+void Graficos::realtimeDataSlot(QStringList linea,double tiempo)
+{// calculate two new data points:
+      // add data to lines:
+    bool ok;
+    double AcX=QString(linea.at(0)).toDouble(&ok);
+    double AcY=QString(linea.at(1)).toDouble(&ok);
+    double AcZ=QString(linea.at(2)).toDouble(&ok);
+    graficartiemporeal(ui->graficoAcX,tiempo,AcX);
+    graficartiemporeal(ui->graficoAcY,tiempo,AcY);
+    graficartiemporeal(ui->graficoAcZ,tiempo,AcZ);
+}
+
+
+
+void Graficos::graficartiemporeal(QCustomPlot *grafico, double tiempo, double dato)
+{
+    grafico->graph(0)->addData(tiempo, dato);
+
+    //ui->graficoAcX->graph(1)->addData(tiempo, AcX);
+    // set data of dots:
+    //ui->graficoAcX->graph(2)->clearData();
+    //ui->graficoAcX->graph(2)->addData(tiempo, AcX+1);
+    //ui->graficoAcX->graph(3)->clearData();
+    //ui->graficoAcX->graph(3)->addData(tiempo, AcX+2);
+    // remove data of lines that's outside visible range:
+
+    grafico->graph(0)->removeDataBefore(tiempo-8);
+    //ui->graficoAcX->graph(1)->removeDataBefore(tiempo-8);
+    // rescale value (vertical) axis to fit the current data:
+    //rafico->graph(0)->rescaleValueAxis();
+    //ui->graficoAcX->graph(1)->rescaleValueAxis(true);
+
+    // make key axis range scroll with the data (at a constant range size of 8):
+    grafico->yAxis->setRange(-2,2);
+    grafico->xAxis->setRange(tiempo, 8, Qt::AlignRight);
+    grafico->replot();
+}
+
 
 //void Graficos::Graficar(QStringList datos, QList<double> Tiempos)
 //{
@@ -88,41 +127,3 @@ void Graficos::inicializar()
 //    grafico->replot();
 //}
 
-
-void Graficos::realtimeDataSlot(QStringList linea,double tiempo)
-{// calculate two new data points:
-      // add data to lines:
-    bool ok;
-    double AcX=QString(linea.at(0)).toDouble(&ok);
-    double AcY=QString(linea.at(1)).toDouble(&ok);
-    double AcZ=QString(linea.at(2)).toDouble(&ok);
-    graficartiemporeal(ui->graficoAcX,tiempo,AcX);
-    graficartiemporeal(ui->graficoAcY,tiempo,AcY);
-    graficartiemporeal(ui->graficoAcZ,tiempo,AcZ);
-}
-
-
-
-void Graficos::graficartiemporeal(QCustomPlot *grafico, double tiempo, double dato)
-{
-    grafico->graph(0)->addData(tiempo, dato);
-
-    //ui->graficoAcX->graph(1)->addData(tiempo, AcX);
-    // set data of dots:
-    //ui->graficoAcX->graph(2)->clearData();
-    //ui->graficoAcX->graph(2)->addData(tiempo, AcX+1);
-    //ui->graficoAcX->graph(3)->clearData();
-    //ui->graficoAcX->graph(3)->addData(tiempo, AcX+2);
-    // remove data of lines that's outside visible range:
-
-    grafico->graph(0)->removeDataBefore(tiempo-8);
-    //ui->graficoAcX->graph(1)->removeDataBefore(tiempo-8);
-    // rescale value (vertical) axis to fit the current data:
-    //rafico->graph(0)->rescaleValueAxis();
-    //ui->graficoAcX->graph(1)->rescaleValueAxis(true);
-
-    // make key axis range scroll with the data (at a constant range size of 8):
-    grafico->yAxis->setRange(-2,2);
-    grafico->xAxis->setRange(tiempo, 8, Qt::AlignRight);
-    grafico->replot();
-}
