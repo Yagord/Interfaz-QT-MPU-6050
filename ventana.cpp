@@ -61,9 +61,7 @@ void Ventana::conexiones()
 }
 
 void Ventana::readData(){
-    QTextStream(stdout)<<timer.elapsed()/1000.0<< "Tiempo Spinbox" <<(double)ui->tiempo->value();
-
-    //if ( timer.elapsed()/1000.0 <= (double)ui->tiempo->value()){
+    if ( timer.elapsed()/1000.0 <= (double)ui->tiempo->value()){
         while (serial->canReadLine()){
             const QByteArray serialData = serial->readLine();
             serialReaded=QString(serialData);
@@ -80,19 +78,20 @@ void Ventana::readData(){
                     emit emitdato(linea,timer.elapsed()/1000.0);
             }
         }
-    /*}else{
+    }
+    else{
         ui->connectButton->setDisabled(false);
         ui->stopButton->setDisabled(true);
         serial->close();
     }
-    */
+
 
 }
 
 void Ventana::openSerialPort()
 {
     //file.reset();
-
+    timer.start();
     samplesNumber=0;
     datos.clear();          //Limpieza de las listas
     listaTiempos.clear();
