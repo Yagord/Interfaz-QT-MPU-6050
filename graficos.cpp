@@ -24,7 +24,6 @@ void Graficos::inicializar()
     ui->graficoAcX->plotLayout()->insertRow(0);
     ui->graficoAcX->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoAcX, "Acelerometro X"));
 
-
     ui->graficoAcY->addGraph(); // blue line
     ui->graficoAcY->graph()->setPen(QPen(Qt::blue));
     ui->graficoAcY->graph()->setBrush(QBrush(QColor(240, 255, 200)));
@@ -37,13 +36,11 @@ void Graficos::inicializar()
     ui->graficoAcZ->plotLayout()->insertRow(0);
     ui->graficoAcZ->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoAcZ, "Acelerometro Z"));
 
-
     ui->graficoGyX->addGraph(); // blue line
     ui->graficoGyX->graph()->setPen(QPen(Qt::red));
     ui->graficoGyX->graph()->setBrush(QBrush(QColor(240, 255, 200)));
     ui->graficoGyX->plotLayout()->insertRow(0);
     ui->graficoGyX->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoGyX, "Gyroscopio X"));
-
 
     ui->graficoGyY->addGraph(); // blue line
     ui->graficoGyY->graph()->setPen(QPen(Qt::red));
@@ -51,13 +48,11 @@ void Graficos::inicializar()
     ui->graficoGyY->plotLayout()->insertRow(0);
     ui->graficoGyY->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoGyY, "Gyroscopio Y"));
 
-
     ui->graficoGyZ->addGraph(); // blue line
     ui->graficoGyZ->graph()->setPen(QPen(Qt::red));
     ui->graficoGyZ->graph()->setBrush(QBrush(QColor(240, 255, 200)));
     ui->graficoGyZ->plotLayout()->insertRow(0);
     ui->graficoGyZ->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoGyZ, "Gyroscopio Z"));
-
     //ui->graficoAcX->addGraph(); // red line
     //ui->graficoAcX->graph(1)->setPen(QPen(Qt::red));
     //ui->graficoAcX->graph(0)->setChannelFillGraph(ui->graficoAcX->graph(1));
@@ -85,6 +80,40 @@ void Graficos::realtimeDataSlot(QStringList linea,double tiempo)
     graficartiemporealGyro(ui->graficoGyY,tiempo,GyY);
     double GyZ=QString(linea.at(5)).toDouble(&ok);
     graficartiemporealGyro(ui->graficoGyZ,tiempo,GyZ);
+}
+
+void Graficos::inicializargraficos(QList<boolean> Checkboxes)
+{
+    if(Checkboxes.at(0))
+        ui->graficoAcX->show();
+    else
+        ui->graficoAcX->hide();
+
+    if(Checkboxes.at(1))
+        ui->graficoAcY->show();
+    else
+        ui->graficoAcY->hide();
+
+    if(Checkboxes.at(2))
+        ui->graficoAcZ->show();
+    else
+        ui->graficoAcZ->hide();
+
+    if(Checkboxes.at(3))
+        ui->graficoGyX->show();
+    else
+        ui->graficoGyX->hide();
+
+    if(Checkboxes.at(4))
+        ui->graficoGyY->show();
+    else
+        ui->graficoGyY->hide();
+
+    if(Checkboxes.at(5))
+        ui->graficoGyZ->show();
+    else
+        ui->graficoGyZ->hide();
+
 }
 
 
@@ -121,7 +150,6 @@ void Graficos::graficartiemporealGyro(QCustomPlot *grafico, double tiempo, doubl
 {
 
     grafico->graph(0)->addData(tiempo, dato);
-
     //ui->graficoAcX->graph(1)->addData(tiempo, AcX);
     // set data of dots:
     //ui->graficoAcX->graph(2)->clearData();

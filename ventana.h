@@ -18,15 +18,13 @@ class Ventana : public QMainWindow
 public:
     explicit Ventana(QWidget *parent = 0);
     ~Ventana();
-    QList<boolean> GetGraphicsCheckboxs();
-
-    QElapsedTimer getTimer() const;
-    void setTimer(const QElapsedTimer &value);
 
 signals:
     void emitlinea(QStringList);
     void emitdato(QStringList,double);
     void enviardatosgrafico(QStringList,QList<double>);
+    void vamosagraficar(QList<boolean> Checkboxs);
+
     //void mostrargrafico();
 
 private slots:
@@ -54,7 +52,7 @@ private:
     //QSerialPort *serial;
     //QString serialBuffer;
     QFile file;
-
+    QList<boolean> GetGraphicsCheckboxs();
 
 
 };

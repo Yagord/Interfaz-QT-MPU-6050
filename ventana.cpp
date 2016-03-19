@@ -56,6 +56,7 @@ void Ventana::conexiones()
     connect(this,SIGNAL(emitlinea(QStringList)),this,SLOT(print(QStringList)));
     //connect(this, SIGNAL(enviardatosgrafico(QStringList,QList<double>)), graficos, SLOT(Graficar(QStringList,QList<double>)));
     //connect(this, SIGNAL(enviardatosgrafico(QStringList,QList<double>)), graficos, SLOT(show()));
+    connect(this,SIGNAL(vamosagraficar(QList<boolean>)),graficos,SLOT(inicializargraficos(QList<boolean>)));
     connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(show()));
     connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(realtimeDataSlot(QStringList,double)));
 }
@@ -108,7 +109,9 @@ void Ventana::openSerialPort()
         //serial->requestToSendChanged(true);
         ui->connectButton->setDisabled(true);
         ui->stopButton->setDisabled(false);
+        emit vamosagraficar(this->GetGraphicsCheckboxs());
         QMessageBox::information(this,"Puerto Abierto","El puerto se ha abierto");
+
     } else {
         QMessageBox::critical(this, tr("Error"), serial->errorString());
     }
@@ -160,15 +163,6 @@ void Ventana::print(QStringList linea)
     */
 }
 
-QElapsedTimer Ventana::getTimer() const
-{
-    return timer;
-}
-
-void Ventana::setTimer(const QElapsedTimer &value)
-{
-    timer = value;
-}
 
 void Ventana::on_portNameCB_currentTextChanged()
 {

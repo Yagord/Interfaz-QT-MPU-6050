@@ -20,6 +20,7 @@ public:
 public slots:
     //void Graficar(QStringList datos,QList<double> Tiempos);
     void realtimeDataSlot(QStringList linea, double tiempo);
+    void inicializargraficos(QList<boolean> Checkboxes);
 
 signals:
     void  windowShown();
