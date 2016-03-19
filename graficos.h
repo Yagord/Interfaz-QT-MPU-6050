@@ -5,7 +5,6 @@
 #include <qcustomplot.h>
 //#include <ventana.h>
 
-
 namespace Ui {
 class Graficos;
 }
@@ -30,7 +29,8 @@ private:
     QStringList linea;
     double tiempo;
     void inicializar();
-    void graficartiemporeal(QCustomPlot *grafico,double tiempo,double dato);
+    void graficartiemporealAcel(QCustomPlot *grafico,double tiempo,double dato);
+    void graficartiemporealGyro(QCustomPlot *grafico,double tiempo,double dato);
     void rellenarGraficos(QCustomPlot *grafico,QVector<double> X,QVector<double> Y,QString Titulo);
 };
 

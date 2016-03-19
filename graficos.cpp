@@ -37,6 +37,27 @@ void Graficos::inicializar()
     ui->graficoAcZ->plotLayout()->insertRow(0);
     ui->graficoAcZ->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoAcZ, "Acelerometro Z"));
 
+
+    ui->graficoGyX->addGraph(); // blue line
+    ui->graficoGyX->graph()->setPen(QPen(Qt::red));
+    ui->graficoGyX->graph()->setBrush(QBrush(QColor(240, 255, 200)));
+    ui->graficoGyX->plotLayout()->insertRow(0);
+    ui->graficoGyX->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoGyX, "Gyroscopio X"));
+
+
+    ui->graficoGyY->addGraph(); // blue line
+    ui->graficoGyY->graph()->setPen(QPen(Qt::red));
+    ui->graficoGyY->graph()->setBrush(QBrush(QColor(240, 255, 200)));
+    ui->graficoGyY->plotLayout()->insertRow(0);
+    ui->graficoGyY->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoGyY, "Gyroscopio Y"));
+
+
+    ui->graficoGyZ->addGraph(); // blue line
+    ui->graficoGyZ->graph()->setPen(QPen(Qt::red));
+    ui->graficoGyZ->graph()->setBrush(QBrush(QColor(240, 255, 200)));
+    ui->graficoGyZ->plotLayout()->insertRow(0);
+    ui->graficoGyZ->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoGyZ, "Gyroscopio Z"));
+
     //ui->graficoAcX->addGraph(); // red line
     //ui->graficoAcX->graph(1)->setPen(QPen(Qt::red));
     //ui->graficoAcX->graph(0)->setChannelFillGraph(ui->graficoAcX->graph(1));
@@ -53,16 +74,22 @@ void Graficos::realtimeDataSlot(QStringList linea,double tiempo)
       // add data to lines:
     bool ok;
     double AcX=QString(linea.at(0)).toDouble(&ok);
+    graficartiemporealAcel(ui->graficoAcX,tiempo,AcX);
     double AcY=QString(linea.at(1)).toDouble(&ok);
+    graficartiemporealAcel(ui->graficoAcY,tiempo,AcY);
     double AcZ=QString(linea.at(2)).toDouble(&ok);
-    graficartiemporeal(ui->graficoAcX,tiempo,AcX);
-    graficartiemporeal(ui->graficoAcY,tiempo,AcY);
-    graficartiemporeal(ui->graficoAcZ,tiempo,AcZ);
+    graficartiemporealAcel(ui->graficoAcZ,tiempo,AcZ);
+    double GyX=QString(linea.at(3)).toDouble(&ok);
+    graficartiemporealGyro(ui->graficoGyX,tiempo,GyX);
+    double GyY=QString(linea.at(4)).toDouble(&ok);
+    graficartiemporealGyro(ui->graficoGyY,tiempo,GyY);
+    double GyZ=QString(linea.at(5)).toDouble(&ok);
+    graficartiemporealGyro(ui->graficoGyZ,tiempo,GyZ);
 }
 
 
 
-void Graficos::graficartiemporeal(QCustomPlot *grafico, double tiempo, double dato)
+void Graficos::graficartiemporealAcel(QCustomPlot *grafico, double tiempo, double dato)
 {
     grafico->graph(0)->addData(tiempo, dato);
 
@@ -80,8 +107,41 @@ void Graficos::graficartiemporeal(QCustomPlot *grafico, double tiempo, double da
     //rafico->graph(0)->rescaleValueAxis();
     //ui->graficoAcX->graph(1)->rescaleValueAxis(true);
 
+
+
+    //Update the display range of your graph
+
     // make key axis range scroll with the data (at a constant range size of 8):
-    grafico->yAxis->setRange(-2,2);
+    grafico->yAxis->setRange(-4,4);
+    grafico->xAxis->setRange(tiempo, 8, Qt::AlignRight);
+    grafico->replot();
+}
+
+void Graficos::graficartiemporealGyro(QCustomPlot *grafico, double tiempo, double dato)
+{
+
+    grafico->graph(0)->addData(tiempo, dato);
+
+    //ui->graficoAcX->graph(1)->addData(tiempo, AcX);
+    // set data of dots:
+    //ui->graficoAcX->graph(2)->clearData();
+    //ui->graficoAcX->graph(2)->addData(tiempo, AcX+1);
+    //ui->graficoAcX->graph(3)->clearData();
+    //ui->graficoAcX->graph(3)->addData(tiempo, AcX+2);
+    // remove data of lines that's outside visible range:
+
+    grafico->graph(0)->removeDataBefore(tiempo-8);
+    //ui->graficoAcX->graph(1)->removeDataBefore(tiempo-8);
+    // rescale value (vertical) axis to fit the current data:
+    //rafico->graph(0)->rescaleValueAxis();
+    //ui->graficoAcX->graph(1)->rescaleValueAxis(true);
+
+
+
+    //Update the display range of your graph
+
+    // make key axis range scroll with the data (at a constant range size of 8):
+    grafico->yAxis->setRange(-1000,1000);
     grafico->xAxis->setRange(tiempo, 8, Qt::AlignRight);
     grafico->replot();
 }
