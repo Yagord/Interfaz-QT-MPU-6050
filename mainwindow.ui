@@ -276,7 +276,7 @@ border: 3px solid rgb(102, 0, 0);
          <property name="windowTitle">
           <string>Salida modo Consola</string>
          </property>
-         <widget class="QWidget" name="dockWidgetContents_2">
+         <widget class="QWidget" name="dockWidgetLayout">
           <layout class="QGridLayout" name="gridLayout_2">
            <item row="0" column="0">
             <widget class="QPlainTextEdit" name="plainTextEdit">
@@ -291,9 +291,6 @@ background-color: black;</string>
             </widget>
            </item>
           </layout>
-          <zorder>plainTextEdit</zorder>
-          <zorder>plainTextEdit</zorder>
-          <zorder>plainTextEdit</zorder>
          </widget>
         </widget>
        </item>
