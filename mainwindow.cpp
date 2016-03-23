@@ -1,6 +1,6 @@
-#include "ventana.h"
+#include "mainwindow.h"
 
-#include "ui_ventana.h"
+#include "ui_mainwindow.h"
 #include <QSerialPortInfo>
 #include <QSerialPort>
 #include <QMessageBox>
@@ -9,21 +9,21 @@
 #include <QScrollBar>
 
 
-Ventana::Ventana(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::Ventana)
+    ui(new Ui::MainWindow)
 {
     inicializar();
     conexiones();
 }
 
-Ventana::~Ventana() //Destroy
+MainWindow::~MainWindow() //Destroy
 {
     //this->closeSerialPort();
     delete ui;
 }
 
-void Ventana::inicializar()
+void MainWindow::inicializar()
 {
     serial=new QSerialPort(this);
     //file.setFileName("out.txt");
@@ -40,10 +40,12 @@ void Ventana::inicializar()
     ui->baudRateCB->addItem(QStringLiteral("57600"), QSerialPort::Baud57600);
     ui->baudRateCB->addItem(QStringLiteral("38400"), QSerialPort::Baud38400);
     ui->baudRateCB->addItem(QStringLiteral("19200"), QSerialPort::Baud19200);
-    ui->baudRateCB->addItem(QStringLiteral("9600"), QSerialPort::Baud9600);
+    ui->baudRateCB->addItem(QStringLiteral("9600"), QSerialPort::Baud9600);    
+
 }
 
-void Ventana::conexiones()
+
+void MainWindow::conexiones()
 {
     connect(ui->connectButton,SIGNAL(clicked()),this,SLOT(openSerialPort()));
     connect(ui->actionConnect,SIGNAL(triggered()),this,SLOT(openSerialPort()));
@@ -61,7 +63,11 @@ void Ventana::conexiones()
     connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(realtimeDataSlot(QStringList,double)));
 }
 
-void Ventana::readData(){
+
+
+
+
+void MainWindow::readData(){
     if ( timer.elapsed()/1000.0 <= (double)ui->tiempo->value()){
         while (serial->canReadLine()){
             const QByteArray serialData = serial->readLine();
@@ -89,7 +95,7 @@ void Ventana::readData(){
 
 }
 
-void Ventana::openSerialPort()
+void MainWindow::openSerialPort()
 {
     //file.reset();
     timer.start();
@@ -117,7 +123,7 @@ void Ventana::openSerialPort()
     }
 }
 
-void Ventana::closeSerialPort()
+void MainWindow::closeSerialPort()
 {
     datos.clear();
     samplesNumber=0;
@@ -133,21 +139,21 @@ void Ventana::closeSerialPort()
     }
 }
 
-void Ventana::closeWindow(){
+void MainWindow::closeWindow(){
     qApp->quit();
 }
 
-void Ventana::on_cleanButton_clicked()
+void MainWindow::on_cleanButton_clicked()
 {
     ui->plainTextEdit->clear();
 }
 
-void Ventana::cambiarBaudRateCB()
+void MainWindow::cambiarBaudRateCB()
 {
     ui->baudRate->setText("Baudios: "+ui->baudRateCB->currentText());
 }
 
-void Ventana::print(QStringList linea)
+void MainWindow::print(QStringList linea)
 {
     QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<< samplesNumber <<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
     //QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<endl;
@@ -164,7 +170,7 @@ void Ventana::print(QStringList linea)
 }
 
 
-void Ventana::on_portNameCB_currentTextChanged()
+void MainWindow::on_portNameCB_currentTextChanged()
 {
     foreach (const QSerialPortInfo info, QSerialPortInfo::availablePorts()) {
         if (info.portName()==ui->portNameCB->currentText()){
@@ -176,7 +182,7 @@ void Ventana::on_portNameCB_currentTextChanged()
     }
 }
 
-QList<boolean> Ventana::GetGraphicsCheckboxs(){
+QList<boolean> MainWindow::GetGraphicsCheckboxs(){
     QList<boolean> checks;
     checks.append(ui->checkBoxAcX->isChecked());
     checks.append(ui->checkBoxAcY->isChecked());

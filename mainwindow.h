@@ -1,5 +1,5 @@
-#ifndef VENTANA_H
-#define VENTANA_H
+#ifndef MainWindow_H
+#define MainWindow_H
 
 #include "graficos.h"
 #include <QMainWindow>
@@ -8,16 +8,16 @@
 #include <lectorserial.h>
 
 namespace Ui {
-class Ventana;
+class MainWindow;
 }
 
-class Ventana : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit Ventana(QWidget *parent = 0);
-    ~Ventana();
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
 signals:
     void emitlinea(QStringList);
@@ -38,7 +38,7 @@ private slots:
     void print(QStringList linea);    
 
 private:
-    Ui::Ventana *ui;
+    Ui::MainWindow *ui;
     QSerialPort *serial;
     LectorSerial *lector;
     QStringList datos;
@@ -57,4 +57,4 @@ private:
 
 };
 
-#endif // VENTANA_H
+#endif // MainWindow_H

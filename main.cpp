@@ -1,4 +1,4 @@
-#include "ventana.h"
+#include "mainwindow.h"
 #include "login.h"
 #include "graficos.h"
 #include <QApplication>
@@ -6,9 +6,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    //Ventana w;
+    //MainWindow w;
     //w.setWindowTitle("Lectura Serial");
-    Ventana w;
+    MainWindow w;
     w.show();
 
     return a.exec();
