@@ -53,6 +53,8 @@ private:
     //QString serialBuffer;
     QFile file;
     QList<boolean> GetGraphicsCheckboxs();
+    QLabel *status;
+    void showStatusMessage(const QString &message);
 
 
 };

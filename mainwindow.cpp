@@ -42,7 +42,8 @@ void MainWindow::inicializar()
     ui->baudRateCB->addItem(QStringLiteral("38400"), QSerialPort::Baud38400);
     ui->baudRateCB->addItem(QStringLiteral("19200"), QSerialPort::Baud19200);
     ui->baudRateCB->addItem(QStringLiteral("9600"), QSerialPort::Baud9600);    
-
+    status = new QLabel;
+    ui->statusBar->addWidget(status);
 }
 
 
@@ -66,9 +67,6 @@ void MainWindow::conexiones()
 }
 
 
-
-
-
 void MainWindow::readData(){
     if ( timer.elapsed()/1000.0 <= (double)ui->tiempo->value()){
         while (serial->canReadLine()){
@@ -77,6 +75,7 @@ void MainWindow::readData(){
             QStringList linea=serialReaded.split(" ");
             if(linea.size()==6){
                 samplesNumber+=1;
+                showStatusMessage("Tiempo:"+QString::number(timer.elapsed()/1000.0)+" Muestras: "+QString::number(samplesNumber));
                 if(samplesNumber==1)//Cuando se agrega el primer dato, se inicia el tiempo.
                     timer.start();                    
 
@@ -155,7 +154,7 @@ void MainWindow::cambiarBaudRateCB()
 
 void MainWindow::print(QStringList linea)
 {
-    QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<< samplesNumber <<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
+    //QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<< samplesNumber <<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
     //QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<endl;
     ui->plainTextEdit->insertPlainText(QString::number(timer.elapsed()/1000.0)+" "+serialReaded);
     QScrollBar *scrollbar = ui->plainTextEdit->verticalScrollBar();
@@ -180,6 +179,11 @@ void MainWindow::on_portNameCB_currentTextChanged()
             break;
         }
     }
+}
+
+void MainWindow::showStatusMessage(const QString &message)
+{
+    status->setText(message);
 }
 
 QList<boolean> MainWindow::GetGraphicsCheckboxs(){

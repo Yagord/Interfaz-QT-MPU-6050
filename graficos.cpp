@@ -61,6 +61,14 @@ void Graficos::inicializar()
     //ui->graficoAcX->graph(2)->setPen(QPen(Qt::blue));
     //ui->graficoAcX->graph(2)->setLineStyle(QCPGraph::lsNone);
     //ui->graficoAcX->graph(2)->setScatterStyle(QCPScatterStyle::ssDisc);
+    ui->menuVer->addAction(ui->dockWidgetAx->toggleViewAction());
+    ui->menuVer->addAction(ui->dockWidgetAy->toggleViewAction());
+    ui->menuVer->addAction(ui->dockWidgetAz->toggleViewAction());
+    ui->menuVer->addAction(ui->dockWidgetGx->toggleViewAction());
+    ui->menuVer->addAction(ui->dockWidgetGy->toggleViewAction());
+    ui->menuVer->addAction(ui->dockWidgetGz->toggleViewAction());
+
+
 
 }
 
