@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     inicializar();
     conexiones();
+    //actions();
 }
 
 MainWindow::~MainWindow() //Destroy
@@ -28,7 +29,7 @@ void MainWindow::inicializar()
     serial=new QSerialPort(this);
     //file.setFileName("out.txt");
     ui->setupUi(this);
-
+    ui->menuVer->addAction(ui->dockWidget->toggleViewAction());
     ui->stopButton->setDisabled(true);
     graficos=new Graficos;
     //ui->tiempo->setValidator(new QIntValidator(0,200,this));
@@ -49,6 +50,7 @@ void MainWindow::conexiones()
 {
     connect(ui->connectButton,SIGNAL(clicked()),this,SLOT(openSerialPort()));
     connect(ui->actionConnect,SIGNAL(triggered()),this,SLOT(openSerialPort()));
+
     connect(ui->stopButton,SIGNAL(clicked()),this,SLOT(closeSerialPort()));
     connect(ui->actionStop,SIGNAL(triggered()),this,SLOT(closeSerialPort()));
     connect(ui->baudRateCB,SIGNAL(currentTextChanged(QString)),this,SLOT(cambiarBaudRateCB()));
@@ -91,8 +93,6 @@ void MainWindow::readData(){
         ui->stopButton->setDisabled(true);
         serial->close();
     }
-
-
 }
 
 void MainWindow::openSerialPort()
