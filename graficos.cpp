@@ -20,7 +20,6 @@ void Graficos::inicializar()
     ui->graficoAcX->addGraph(); // blue line
     ui->graficoAcX->graph()->setPen(QPen(Qt::blue));
     ui->graficoAcX->graph()->setBrush(QBrush(QColor(240, 255, 200)));
-
     ui->graficoAcX->plotLayout()->insertRow(0);
     ui->graficoAcX->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoAcX, "Acelerometro X"));
 
@@ -93,11 +92,13 @@ void Graficos::realtimeDataSlot(QStringList linea,double tiempo)
 
 void Graficos::inicializargraficos(QList<boolean> Checkboxes)
 {
-    if(Checkboxes.at(0))
+    inicializar();
+    if(Checkboxes.at(0)){
         ui->graficoAcX->show();
-    else
+    }
+    else{
         ui->graficoAcX->hide();
-
+    }
     if(Checkboxes.at(1))
         ui->graficoAcY->show();
     else

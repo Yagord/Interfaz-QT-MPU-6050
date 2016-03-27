@@ -84,7 +84,7 @@ void MainWindow::readData(){
                 listaTiempos.append(timer.elapsed()/1000.0);
                 datos.append(linea);
                 emit emitlinea(linea);
-                if(samplesNumber % 10==0)//Cada 5 datos se grafica
+                if(samplesNumber % ui->frecgraph->value()==0)//Cada x datos se grafica
                     emit emitdato(linea,timer.elapsed()/1000.0);
             }
         }
@@ -101,7 +101,7 @@ void MainWindow::openSerialPort()
     //file.reset();
     timer.start();
     samplesNumber=0;
-    datos.clear();          //Limpieza de las listas
+    datos.clear();        //Limpieza de las listas
     listaTiempos.clear();
     serial->setPortName(ui->portNameCB->currentText());
     serial->setBaudRate(ui->baudRateCB->currentText().toInt());
