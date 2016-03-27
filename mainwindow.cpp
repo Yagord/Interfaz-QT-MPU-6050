@@ -51,7 +51,6 @@ void MainWindow::conexiones()
 {
     connect(ui->connectButton,SIGNAL(clicked()),this,SLOT(openSerialPort()));
     connect(ui->actionConnect,SIGNAL(triggered()),this,SLOT(openSerialPort()));
-
     connect(ui->stopButton,SIGNAL(clicked()),this,SLOT(closeSerialPort()));
     connect(ui->actionStop,SIGNAL(triggered()),this,SLOT(closeSerialPort()));
     connect(ui->baudRateCB,SIGNAL(currentTextChanged(QString)),this,SLOT(cambiarBaudRateCB()));
@@ -64,6 +63,7 @@ void MainWindow::conexiones()
     connect(this,SIGNAL(vamosagraficar(QList<boolean>)),graficos,SLOT(inicializargraficos(QList<boolean>)));
     connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(show()));
     connect(this,SIGNAL(emitdato(QStringList,double)),graficos,SLOT(realtimeDataSlot(QStringList,double)));
+    connect(this,SIGNAL(emitstatustographics(QString)),graficos,SLOT(showStatusMessage(QString)));
 }
 
 
@@ -75,14 +75,16 @@ void MainWindow::readData(){
             QStringList linea=serialReaded.split(" ");
             if(linea.size()==6){
                 samplesNumber+=1;
-                showStatusMessage("Tiempo:"+QString::number(timer.elapsed()/1000.0)+" Muestras: "+QString::number(samplesNumber));
+                const QString status="Tiempo: "+QString::number(timer.elapsed()/1000.0)+"   Muestras: "+QString::number(samplesNumber);
+                showStatusMessage(status);
+                emit emitstatustographics(status);
                 if(samplesNumber==1)//Cuando se agrega el primer dato, se inicia el tiempo.
-                    timer.start();                    
+                    timer.start();
 
                 listaTiempos.append(timer.elapsed()/1000.0);
                 datos.append(linea);
                 emit emitlinea(linea);
-                if(samplesNumber % 5==0)//Cada 5 datos se grafica
+                if(samplesNumber % 10==0)//Cada 5 datos se grafica
                     emit emitdato(linea,timer.elapsed()/1000.0);
             }
         }
@@ -115,7 +117,7 @@ void MainWindow::openSerialPort()
         ui->connectButton->setDisabled(true);
         ui->stopButton->setDisabled(false);
         emit vamosagraficar(this->GetGraphicsCheckboxs());
-        QMessageBox::information(this,"Puerto Abierto","El puerto se ha abierto");
+        //QMessageBox::information(this,"Puerto Abierto","El puerto se ha abierto");
 
     } else {
         QMessageBox::critical(this, tr("Error"), serial->errorString());

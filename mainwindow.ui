@@ -104,6 +104,12 @@ border: 3px solid #398439;
          <property name="text">
           <string>Conectar</string>
          </property>
+         <property name="default">
+          <bool>false</bool>
+         </property>
+         <property name="flat">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -139,10 +145,10 @@ color: rgb(255, 255, 255);</string>
             <number>1</number>
            </property>
            <property name="maximum">
-            <number>199</number>
+            <number>500</number>
            </property>
            <property name="value">
-            <number>15</number>
+            <number>20</number>
            </property>
           </widget>
          </item>

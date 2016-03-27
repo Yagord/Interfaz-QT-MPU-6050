@@ -31,7 +31,7 @@ void Graficos::inicializar()
     ui->graficoAcY->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoAcY, "Acelerometro Y"));
 
     ui->graficoAcZ->addGraph(); // blue line
-    ui->graficoAcZ->graph()->setPen(QPen(Qt::red));
+    ui->graficoAcZ->graph()->setPen(QPen(Qt::blue));
     ui->graficoAcZ->graph()->setBrush(QBrush(QColor(240, 255, 200)));
     ui->graficoAcZ->plotLayout()->insertRow(0);
     ui->graficoAcZ->plotLayout()->addElement(0, 0, new QCPPlotTitle(ui->graficoAcZ, "Acelerometro Z"));
@@ -67,7 +67,8 @@ void Graficos::inicializar()
     ui->menuVer->addAction(ui->dockWidgetGx->toggleViewAction());
     ui->menuVer->addAction(ui->dockWidgetGy->toggleViewAction());
     ui->menuVer->addAction(ui->dockWidgetGz->toggleViewAction());
-
+    status = new QLabel;
+    ui->statusbar->addWidget(status);
 
 
 }
@@ -180,6 +181,11 @@ void Graficos::graficartiemporealGyro(QCustomPlot *grafico, double tiempo, doubl
     grafico->yAxis->setRange(-1000,1000);
     grafico->xAxis->setRange(tiempo, 8, Qt::AlignRight);
     grafico->replot();
+}
+
+void Graficos::showStatusMessage(const QString &message)
+{
+    status->setText(message);
 }
 
 

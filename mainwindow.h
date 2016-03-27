@@ -24,6 +24,7 @@ signals:
     void emitdato(QStringList,double);
     void enviardatosgrafico(QStringList,QList<double>);
     void vamosagraficar(QList<boolean> Checkboxs);
+    void emitstatustographics(QString status);
 
     //void mostrargrafico();
 
