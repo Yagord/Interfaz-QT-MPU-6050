@@ -179,7 +179,7 @@ void Graficos::graficartiemporealGyro(QCustomPlot *grafico, double tiempo, doubl
     //Update the display range of your graph
 
     // make key axis range scroll with the data (at a constant range size of 8):
-    grafico->yAxis->setRange(-1000,1000);
+    grafico->yAxis->setRange(-500,500);
     grafico->xAxis->setRange(tiempo, 8, Qt::AlignRight);
     grafico->replot();
 }

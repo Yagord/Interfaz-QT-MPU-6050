@@ -38,6 +38,9 @@
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QDockWidget" name="dockWidgetAx">
+         <property name="windowTitle">
+          <string>Grafico Ax</string>
+         </property>
          <widget class="QWidget" name="dockWidgetLayoutAx">
           <layout class="QGridLayout" name="gridLayout">
            <item row="0" column="0">
@@ -49,6 +52,9 @@
        </item>
        <item>
         <widget class="QDockWidget" name="dockWidgetAy">
+         <property name="windowTitle">
+          <string>Grafico Ay</string>
+         </property>
          <widget class="QWidget" name="dockWidgetLayoutAy">
           <layout class="QGridLayout" name="gridLayout_2">
            <item row="0" column="0">
@@ -60,6 +66,9 @@
        </item>
        <item>
         <widget class="QDockWidget" name="dockWidgetAz">
+         <property name="windowTitle">
+          <string>Grafico Gz</string>
+         </property>
          <widget class="QWidget" name="dockWidgetLayoutAz">
           <layout class="QGridLayout" name="gridLayout_3">
            <item row="0" column="0">
