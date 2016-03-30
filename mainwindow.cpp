@@ -54,7 +54,9 @@ void MainWindow::conexiones()
     connect(ui->stopButton,SIGNAL(clicked()),this,SLOT(closeSerialPort()));
     connect(ui->actionStop,SIGNAL(triggered()),this,SLOT(closeSerialPort()));
     connect(ui->baudRateCB,SIGNAL(currentTextChanged(QString)),this,SLOT(cambiarBaudRateCB()));
+    connect(ui->writeSerial,SIGNAL(clicked()),this,SLOT(writeData()));
     connect(serial, SIGNAL(readyRead()), this, SLOT(readData()));
+    connect(serial,SIGNAL(bytesWritten(qint64)),this,SLOT(changeRanges(qint64)));
     connect(ui->exitButton,SIGNAL(clicked()),this,SLOT(closeWindow()));
     connect(ui->actionExit,SIGNAL(triggered()),this,SLOT(closeWindow()));
     connect(this,SIGNAL(emitlinea(QStringList)),this,SLOT(print(QStringList)));
@@ -66,12 +68,13 @@ void MainWindow::conexiones()
     connect(this,SIGNAL(emitstatustographics(QString)),graficos,SLOT(showStatusMessage(QString)));
 }
 
-
 void MainWindow::readData(){
+
     if ( timer.elapsed()/1000.0 <= (double)ui->tiempo->value()){
         while (serial->canReadLine()){
             const QByteArray serialData = serial->readLine();
             serialReaded=QString(serialData);
+
             QStringList linea=serialReaded.split(" ");
             if(linea.size()==6){
                 samplesNumber+=1;
@@ -87,6 +90,8 @@ void MainWindow::readData(){
                 if(samplesNumber % ui->frecgraph->value()==0)//Cada x datos se grafica
                     emit emitdato(linea,timer.elapsed()/1000.0);
             }
+            else
+                 QTextStream(stdout)<<serialReaded<<endl;
         }
     }
     else{
@@ -94,6 +99,17 @@ void MainWindow::readData(){
         ui->stopButton->setDisabled(true);
         serial->close();
     }
+}
+
+void MainWindow::writeData()
+{
+    serial->write(ui->serialDataLineEdit->text().toLocal8Bit());
+}
+
+void MainWindow::changeRanges(qint64 bytes)
+{
+    QTextStream(stdout)<< "Escribiendo Bytes"<<bytes<<endl;
+    serial->waitForBytesWritten(2000);
 }
 
 void MainWindow::openSerialPort()

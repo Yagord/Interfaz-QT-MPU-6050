@@ -193,6 +193,27 @@ color: rgb(255, 255, 255);</string>
         <layout class="QFormLayout" name="formLayout"/>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Serial Write</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="serialDataLineEdit"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="writeSerial">
+           <property name="text">
+            <string>WriteSerial</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="QPushButton" name="exitButton">
          <property name="styleSheet">
           <string notr="true">QPushButton{

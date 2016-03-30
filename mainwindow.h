@@ -25,12 +25,14 @@ signals:
     void enviardatosgrafico(QStringList,QList<double>);
     void vamosagraficar(QList<boolean> Checkboxs);
     void emitstatustographics(QString status);
-
+    void getData(const QByteArray &data);
     //void mostrargrafico();
 
 private slots:
     void on_portNameCB_currentTextChanged();
     void readData();
+    void writeData();
+    void changeRanges(qint64);
     void openSerialPort();
     void closeSerialPort();
     void closeWindow();
@@ -56,8 +58,6 @@ private:
     QList<boolean> GetGraphicsCheckboxs();
     QLabel *status;
     void showStatusMessage(const QString &message);
-
-
 };
 
 #endif // MainWindow_H
