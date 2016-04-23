@@ -128,6 +128,7 @@ void MainWindow::openSerialPort()
     serial->setParity(QSerialPort::NoParity);
     serial->setFlowControl(QSerialPort::NoFlowControl);
     if (serial->open(QIODevice::ReadWrite)){
+         serial->clear();
         //serial->dataTerminalReadyChanged(true);
         //serial->requestToSendChanged(true);
         ui->connectButton->setDisabled(true);
@@ -172,7 +173,7 @@ void MainWindow::cambiarBaudRateCB()
 
 void MainWindow::print(QStringList linea)
 {
-    //QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<< samplesNumber <<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
+    QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<< samplesNumber <<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<" GyX:"<<linea.at(3)<<" GyY:"<<linea.at(4)<<" GyZ:"<<linea.at(5)<<endl;
     //QTextStream(stdout)<<"Tiempo:"<<timer.elapsed()/1000.0<<" Muestras:"<<datos.size()<<" AcX:"<<linea.at(0)<<" AcY:"<<linea.at(1)<<" AcZ:"<<linea.at(2)<<endl;
     ui->plainTextEdit->insertPlainText(QString::number(timer.elapsed()/1000.0)+" "+serialReaded);
     QScrollBar *scrollbar = ui->plainTextEdit->verticalScrollBar();

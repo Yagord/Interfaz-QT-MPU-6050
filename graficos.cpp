@@ -151,7 +151,7 @@ void Graficos::graficartiemporealAcel(QCustomPlot *grafico, double tiempo, doubl
     //Update the display range of your graph
 
     // make key axis range scroll with the data (at a constant range size of 8):
-    grafico->yAxis->setRange(-4,4);
+    grafico->yAxis->setRange(-10000,10000);
     grafico->xAxis->setRange(tiempo, 8, Qt::AlignRight);
     grafico->replot();
 }
